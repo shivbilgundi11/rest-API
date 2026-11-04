@@ -1,12 +1,14 @@
 import express from "express";
-import { createUser, getUsersByEmail } from "../db/users.js";
-import { random, authentication } from "../helpers/index.js";
+import { createUser, getUsersByEmail } from "../db/users.ts";
+import { random, authentication } from "../helpers/index.ts";
 
 export const register = async (req: express.Request, res: express.Response) => {
   try {
     const { email, password, username } = req.body;
 
-    if (!email || !password || !username) return res.sendStatus(400);
+    if (!email || !password || !username) {
+      return res.sendStatus(400);
+    }
 
     const existingUser = await getUsersByEmail(email);
 

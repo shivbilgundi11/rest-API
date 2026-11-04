@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import mongoose from "mongoose";
+import router from "./router/index.ts";
 
 const app = express();
 
@@ -21,9 +22,14 @@ app.use(bodyParser.json());
 const server = http.createServer(app);
 
 server.listen(8080, () => {
-  console.log("Server running on http://localhost:8080/");
+  console.log("Server running on http://localhost:8080");
 });
 
 mongoose.Promise = Promise;
 mongoose.connect("mongodb://127.0.0.1:27017/rest-api");
 mongoose.connection.on("error", (error: Error) => console.error(error));
+mongoose.connection.on("success", () =>
+  console.log("MongoDB successfully connected!"),
+);
+
+app.use("/", router());
